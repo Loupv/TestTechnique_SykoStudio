@@ -13,7 +13,7 @@ public class UIHandler : MonoBehaviour
     public TMPro.TMP_Dropdown scenariosDropDown;
 
     public Slider rotationSpeedSlider, sizeSlider, revolutionSpeedSlider, distanceSlider;
-
+    public TMPro.TMP_Text planetNameTextField;
 
     private void Start()
     {
@@ -55,6 +55,22 @@ public class UIHandler : MonoBehaviour
         {
             loadingScreenPanel.SetActive(false);
             inGamePanel.SetActive(true);
+        }
+    }
+
+
+    public void AdjustUIValues()
+    {
+        Planet currentPlanet = systemHandler.GetCurrentlyFocusedPlanet();
+
+        if (currentPlanet != null)
+        {
+            PlanetData newData = currentPlanet.GetPlanetData();
+            rotationSpeedSlider.value = newData.rotationSpeed;
+            sizeSlider.value = newData.diameter;
+            revolutionSpeedSlider.value = newData.revolutionSpeed;
+            distanceSlider.value = newData.distanceFromStar;
+            planetNameTextField.text = newData.name;
         }
     }
 }

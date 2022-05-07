@@ -14,6 +14,8 @@ public class SystemHandler : MonoBehaviour
     
     GameObject mainCamera;
     GameObject mainStar;
+    public UIHandler uiHandler;
+
     Vector3 startCameraPosition;
     int zoomAmount;
     public int actualLookAt = 0;
@@ -21,6 +23,8 @@ public class SystemHandler : MonoBehaviour
 
     public void InitSystem(GameData gameData)
     {
+        uiHandler = FindObjectOfType<UIHandler>();
+
         mainCamera = Camera.main.gameObject;
         startCameraPosition = mainCamera.transform.position;
 
@@ -106,6 +110,8 @@ public class SystemHandler : MonoBehaviour
         actualLookAt += add;
         if (actualLookAt < 0) actualLookAt = planets.Count - 1;
         else if (actualLookAt >= planets.Count) actualLookAt = 0;
+
+        uiHandler.AdjustUIValues();
     }
 
     void ZoomIn(int add)

@@ -1,29 +1,32 @@
 {
 
    "mainStar":{
+      "name":"MainStar",
       "ID":0,
       "diameter": 4,
       "revolutionSpeed": 0, 
       "rotationSpeed":0.1,
       "distanceFromStar": 0,
       "angle": 0,
-      "color":"red"
+      "color":"star"
    },
 
    "planets":[
 
       {
+         "name":"Planet1",
          "ID":1,
          "diameter": 0.7,
          "revolutionSpeed": 0.01, 
          "rotationSpeed":0.1,
          "distanceFromStar": 8,
          "angle": 0,
-         "color":"yellow"
+         "color":"red"
       },
       {
+         "name":"Planet2",
          "ID":2,
-        "diameter": 0.9,
+         "diameter": 0.9,
          "revolutionSpeed": 0.02, 
          "rotationSpeed":0.1,
          "distanceFromStar": 12,
@@ -31,22 +34,24 @@
          "color":"blue"
       },
       {
+         "name":"Planet3",
          "ID":3,
-        "diameter": 0.6,
-         "revolutionSpeed": 0.03, 
-         "rotationSpeed":0.1,
-         "distanceFromStar": 18,
-         "angle": 0,
-         "color":"yellow"
-      },
-      {
-         "ID":4,
          "diameter": 1,
          "revolutionSpeed": 0.05, 
          "rotationSpeed":0.1,
          "distanceFromStar": 25,
          "angle": 0,
          "color":"green"
+      },
+      {
+         "name":"Planet4",
+         "ID":4,
+         "diameter": 0.6,
+         "revolutionSpeed": 0.03, 
+         "rotationSpeed":0.1,
+         "distanceFromStar": 18,
+         "angle": 0,
+         "color":"yellow"
       }
 
    ]

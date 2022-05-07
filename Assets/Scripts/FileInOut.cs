@@ -14,7 +14,7 @@ public class PlanetData
 {
     public int ID;
     public float diameter, revolutionSpeed, rotationSpeed, distanceFromStar, angle;
-    public string color;
+    public string name, color;
 }
 
 public static class FileInOut

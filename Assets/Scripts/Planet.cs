@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Planet : MonoBehaviour
 {
 
     public int _ID;
     public float _diameter, _revolutionSpeed, _rotationSpeed, _distanceFromStar, _angle;
-    public string color;
+    public string _name, _color;
 
     public Material currentMaterial;
 
     public void Init(PlanetData data, Material mat)
     {
         _ID = data.ID;
+        _name = data.name;
         _diameter = data.diameter;
         _revolutionSpeed = data.revolutionSpeed;
         _rotationSpeed = data.rotationSpeed;
@@ -37,6 +39,7 @@ public class Planet : MonoBehaviour
         data.revolutionSpeed = _revolutionSpeed;
         data.rotationSpeed = _rotationSpeed;
         data.distanceFromStar = _distanceFromStar;
+        data.name = _name;
 
         return data;
     }
