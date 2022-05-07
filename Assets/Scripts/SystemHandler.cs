@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 14h50 / 16h40
-// 17h40 / 18h50 -> 3h
-// 16h00 /
+// 17h40 / 18h50
+// 16h00 / 20h00 -> 7h
 
 public class SystemHandler : MonoBehaviour
 {
