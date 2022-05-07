@@ -73,4 +73,22 @@ public class UIHandler : MonoBehaviour
             planetNameTextField.text = newData.name;
         }
     }
+
+
+    public void SaveConfigDataToFile()
+    {
+        GameData newGameData = new GameData();
+        newGameData.mainStar = systemHandler.planets[0].GetComponent<Planet>().GetPlanetData();
+        Debug.Log("Saving planet : " + newGameData.mainStar.name);
+
+        newGameData.planetsData = new PlanetData[systemHandler.planets.Count-1];
+
+        for(int i = 1; i < newGameData.planetsData.Length + 1; i++)
+        {
+            newGameData.planetsData[i-1] = systemHandler.planets[i].GetComponent<Planet>().GetPlanetData();
+            Debug.Log("Saving planet : " + newGameData.planetsData[i-1].name);
+        }
+
+        FileInOut.SavePlanetConfigToFile(newGameData, "jsonTest.json");
+    }
 }

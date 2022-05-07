@@ -21,6 +21,7 @@ public class SystemHandler : MonoBehaviour
     public int actualLookAt = 0;
     public bool systemIsActive;
 
+
     public void InitSystem(GameData gameData)
     {
         uiHandler = FindObjectOfType<UIHandler>();
@@ -32,22 +33,20 @@ public class SystemHandler : MonoBehaviour
 
         // Init Star
         mainStar = new GameObject();
-        mainStar.name = "Star";
         mainStar.gameObject.AddComponent<Planet>();
         Material mat = PickRightMaterial(gameData.mainStar.color);
         mainStar.GetComponent<Planet>().Init(gameData.mainStar, mat);
         planets.Add(mainStar);
 
         // Init Planets
-        for (int i = 0; i < gameData.planets.Length; i++)
+        for (int i = 0; i < gameData.planetsData.Length; i++)
         {
             GameObject newPlanet = new GameObject();
             newPlanet.AddComponent<Planet>();
 
-            mat = PickRightMaterial(gameData.planets[i].color);
-            newPlanet.GetComponent<Planet>().Init(gameData.planets[i], mat);
+            mat = PickRightMaterial(gameData.planetsData[i].color);
+            newPlanet.GetComponent<Planet>().Init(gameData.planetsData[i], mat);
 
-            newPlanet.name = "Planet" + i;
             planets.Add(newPlanet);
         }
         ChangeLookAt(0);

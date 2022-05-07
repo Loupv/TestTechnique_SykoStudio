@@ -20,11 +20,15 @@ public class Planet : MonoBehaviour
         _revolutionSpeed = data.revolutionSpeed;
         _rotationSpeed = data.rotationSpeed;
         _distanceFromStar = data.distanceFromStar;
+        _color = data.color;
         _angle = 0;
-
         //obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         gameObject.AddComponent<MeshFilter>().mesh = Resources.GetBuiltinResource<Mesh>("Sphere.fbx");
         gameObject.transform.localScale = new Vector3(_diameter, _diameter, _diameter);
+        gameObject.name = _name;
+
+        gameObject.transform.parent = GameObject.FindWithTag("PlanetsParent").transform;
+
         currentMaterial = mat;
 
         gameObject.AddComponent<MeshRenderer>();
@@ -35,12 +39,13 @@ public class Planet : MonoBehaviour
     public PlanetData GetPlanetData()
     {
         PlanetData data = new PlanetData();
+        data.ID = _ID;
         data.diameter = _diameter;
         data.revolutionSpeed = _revolutionSpeed;
         data.rotationSpeed = _rotationSpeed;
         data.distanceFromStar = _distanceFromStar;
         data.name = _name;
-
+        data.color = _color;
         return data;
     }
 

@@ -6,15 +6,16 @@ using System.IO;
 public class GameData
 {
     public PlanetData mainStar;
-    public PlanetData[] planets;
+    public PlanetData[] planetsData;
 }
 
 [System.Serializable]
 public class PlanetData
 {
+    public string name;
     public int ID;
     public float diameter, revolutionSpeed, rotationSpeed, distanceFromStar, angle;
-    public string name, color;
+    public string color;
 }
 
 public static class FileInOut
@@ -22,7 +23,7 @@ public static class FileInOut
 
     public static List<string> performanceDataFiles;
 
-
+    // reads json file and return a gamedata object containing mainstar and planets data
     public static GameData LoadPlanetData(string jsonName)
     {
         if (Application.platform == RuntimePlatform.OSXPlayer) jsonName = "/Resources/Data/" + jsonName;
@@ -44,7 +45,7 @@ public static class FileInOut
 
     }
 
-
+    // load all existing config files into UI dropdown
     public static List<string> LoadScenarioList(string jsonName)
     {
         TextAsset ta = Resources.Load<TextAsset>(jsonName);
@@ -90,6 +91,13 @@ public static class FileInOut
         dropdown.value = 0;
         dropdown.RefreshShownValue();
 
+    }
+
+
+    public static void SavePlanetConfigToFile(GameData gameData, string jsonName)
+    {
+        string configDataString = JsonUtility.ToJson(gameData, true);
+        File.WriteAllText(Application.dataPath + "/StreamingAssets/" + jsonName, configDataString);
     }
 }
     

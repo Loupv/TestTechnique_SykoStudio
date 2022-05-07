@@ -11,7 +11,7 @@
       "color":"star"
    },
 
-   "planets":[
+   "planetsData":[
 
       {
          "name":"Planet1",
