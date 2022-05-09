@@ -50,6 +50,7 @@ public class GameEngine : MonoBehaviour
         else if(gameState == GameState.InGame)
         {
             systemHandler.UpdateSystem();
+            systemHandler.UpdateCamera();
         }
     }
 }

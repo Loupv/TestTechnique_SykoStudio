@@ -5,6 +5,8 @@ using UnityEngine;
 // 14h50 / 16h40
 // 17h40 / 18h50
 // 16h00 / 20h00 -> 7h
+// 20h30 / 22h00 -> 9h30
+// 21h10 / 
 
 public class SystemHandler : MonoBehaviour
 {
@@ -18,9 +20,11 @@ public class SystemHandler : MonoBehaviour
 
     Vector3 startCameraPosition;
     int zoomAmount;
-    public int actualLookAt = 0;
+    public int targettedPlanetID = 0;
     public bool systemIsActive;
 
+    public float minCameraToPlanetDistance, maxCameraToPlanetDistance;
+    public float optimalHeight, optimalZoomSpeed;
 
     public void InitSystem(GameData gameData)
     {
@@ -61,24 +65,38 @@ public class SystemHandler : MonoBehaviour
         if (systemIsActive) {
             ActualizePlanetsTransform();
         }
+        if (Input.GetKeyDown(KeyCode.Space)) systemIsActive = !systemIsActive;
+    }
+
+    public void UpdateCamera()
+    {
 
         //mainCamera.transform.position = startCameraPosition + planets[actualLookAt].transform.position
         //    + mainCamera.transform.forward * zoomAmount;
         //mainCamera.transform.LookAt(planets[actualLookAt].transform);
 
-        mainCamera.transform.LookAt(planets[actualLookAt].transform);
+        Transform cameraTransform = mainCamera.transform;
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+            cameraTransform.RotateAround(planets[targettedPlanetID].transform.position, Vector3.up, 1);
+
+        if (Input.GetKey(KeyCode.RightArrow))
+            cameraTransform.RotateAround(planets[targettedPlanetID].transform.position, Vector3.up, -1);
+
+        cameraTransform.position = new Vector3(cameraTransform.position.x, optimalHeight, cameraTransform.transform.position.z);
+        cameraTransform.LookAt(planets[targettedPlanetID].transform);
 
 
-        if (Input.GetKey(KeyCode.LeftArrow)) mainCamera.transform.RotateAround(planets[actualLookAt].transform.position, Vector3.up, 1);
-        if (Input.GetKey(KeyCode.RightArrow)) mainCamera.transform.RotateAround(planets[actualLookAt].transform.position, Vector3.up, -1);
-
-        if (Input.GetKeyDown(KeyCode.UpArrow)) ZoomIn(1);
-        if (Input.GetKeyDown(KeyCode.DownArrow)) ZoomIn(-1);
+        if ((Input.GetKey(KeyCode.UpArrow) || Input.mouseScrollDelta.y > 0) && GetHorizontalDistance(cameraTransform.position, planets[targettedPlanetID].transform.position) > minCameraToPlanetDistance)
+            cameraTransform = ZoomIn(cameraTransform, optimalZoomSpeed / 10f);
+        if ((Input.GetKey(KeyCode.DownArrow) || Input.mouseScrollDelta.y < 0) && GetHorizontalDistance(cameraTransform.position, planets[targettedPlanetID].transform.position) < maxCameraToPlanetDistance)
+            cameraTransform = ZoomIn(cameraTransform, -optimalZoomSpeed / 10f);
 
         if (Input.GetMouseButtonDown(1) && Input.mousePosition.y > 140) ChangeLookAt(-1);
         if (Input.GetMouseButtonDown(0) && Input.mousePosition.y > 140) ChangeLookAt(1);
 
-        if (Input.GetKeyDown(KeyCode.Space)) systemIsActive = !systemIsActive;
+        mainCamera.transform.position = cameraTransform.position;
+        mainCamera.transform.rotation = cameraTransform.rotation;
 
     }
 
@@ -95,28 +113,29 @@ public class SystemHandler : MonoBehaviour
 
     public Planet GetCurrentlyFocusedPlanet()
     {
-        if (planets != null && planets.Count > 0) return planets[actualLookAt].GetComponent<Planet>();
+        if (planets != null && planets.Count > 0) return planets[targettedPlanetID].GetComponent<Planet>();
         else return null;
     }
 
     public void AdjustCurrentPlanetParameters(PlanetData data)
     {
-        planets[actualLookAt].GetComponent<Planet>().AdjustParameters(data);
+        planets[targettedPlanetID].GetComponent<Planet>().AdjustParameters(data);
     }
 
     void ChangeLookAt(int add)
     {
-        actualLookAt += add;
-        if (actualLookAt < 0) actualLookAt = planets.Count - 1;
-        else if (actualLookAt >= planets.Count) actualLookAt = 0;
+        targettedPlanetID += add;
+        if (targettedPlanetID < 0) targettedPlanetID = planets.Count - 1;
+        else if (targettedPlanetID >= planets.Count) targettedPlanetID = 0;
 
         uiHandler.AdjustUIValues();
     }
 
-    void ZoomIn(int add)
+    Transform ZoomIn(Transform originalTransform, float zoomQuantity)
     {
-        zoomAmount += add;
-        //mainCamera.transform.position += mainCamera.transform.forward * zoomAmount;
+        //zoomAmount += add;
+        originalTransform.position = Vector3.MoveTowards(originalTransform.position, planets[targettedPlanetID].transform.position, zoomQuantity);
+        return originalTransform;
     }
 
     Material PickRightMaterial(string colName)
@@ -131,4 +150,12 @@ public class SystemHandler : MonoBehaviour
         }
         return null;
     }
+
+    float GetHorizontalDistance(Vector3 vector1, Vector3 vector2)
+    {
+        vector1.y = 0;
+        vector2.y = 0;
+        return Vector3.Distance(vector1, vector2);
+    }
+
 }
