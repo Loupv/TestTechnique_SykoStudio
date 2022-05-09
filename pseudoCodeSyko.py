@@ -22,7 +22,6 @@
 
 # Partant donc sur le scénario (1), je dois considérer que les listes de participants et de stands sont déjà connues
 # et que les participants sont déjà tous sur place lors de l'exécution du programme.
-# Par facilité de traitement, je considère également que la liste des participants est déjà triée en fonction de leur ordre d'arrivée
 
 
 # la classe Convention référence tous les objets Stand, classés par numéro de stand allant de 0 à X
@@ -43,7 +42,8 @@ class Convention
 
 		if(FileExists(standArrayFileName) && FileExists(attendeeArrayFileName))
 			standArray = LoadFileAsStandArray(standArrayFileName)
-			attendeeArray = LoadFileAsAttendeeArray(attendeeArrayFileName)
+			attendeeArray = SortAttendees(LoadFileAsAttendeeArray(attendeeArrayFileName))
+
 			dataIsLoaded = true
 		else dataIsLoaded = false
 
@@ -75,7 +75,6 @@ class Convention
 				if(vacantStandFound) break
 
 			# si aucun stand libre n'a été trouvé, on sélectionne le premier choix de l'attendee et on le met sur la liste d'attente
-			# une bonne expérience utilisateur impliquerait de spécifier un temps limite d'attente et de choisir un des stands suivants si celui-ci y est moindre
 			if(not vacantStandFound)
 				if(currentAttendee.standIDPreferences > 0)
 					Stand currentStand = currentAttendee.standIDPreferences[0]
@@ -88,6 +87,9 @@ class Convention
 		print("Affectation done !")
 
 
+	public Attendee[] SortAttendees()
+		## ici une méthode pour trier le tableau de participants en fonction de leur ordre d'arrivée (arrivalRank)
+
 	public Stand[] LoadFileAsStandArray(string standArrayFileName)
 		## ici une méthode pour charger un fichier et renvoyer un array de Stand
 
@@ -95,11 +97,15 @@ class Convention
 		## ici une méthode pour charger un fichier et renvoyer un array d'Attendee
 
 
+
 # cette classe contient les informations permettant l'affectation du participant
 class Attendee
 	# l'ID sert en cas de stand complet, et s'ajoute à sa file d'attente
-	public int ID;
+	public int ID
 
+	# stocke un entier correspondant à l'ordre d'arrivée à la convention
+	public int arrivalRank
+	
 	# stocke la liste des IDs des stands dans l'ordre de préférence, sa taille est dynamique et permet de retirer ses préférences tout au long de son parcours
 	public list:int standIDPreferencesList 
 
@@ -139,7 +145,7 @@ class Stand
 
 ###
 # On exécute ici notre programme 
-# on considère les noms "standFile.json" "attendeeFile.json"
+# on considère les noms "standFile.json" "attendeeFile.json" comme étant les fichiers donnés par la convention avec la liste des stands et des participants
 ###
 
 Convention convention = new Convention("standFile.json", "attendeeFile.json")
@@ -149,3 +155,20 @@ if(convention.dataIsLoaded) convention.AssignAttendeesToStands()
 else print("Data Not Found")
 
 END
+
+
+## Optimisations possibles :
+
+# - le temps moyen passé par stand n'a ici pas été utilisé. Dans le cas où tous les stands sont pleins, il conviendrait de spécifier un temps limite où l'attente est considérée comme soutenable
+#   Dans ce cas on rajouterait dans la class Stand la donnée de temps moyen passé sur le-dit stand, et on mesurerait par exemple parmi les 10 premiers choix le stand où le temps d'attente sera le plus faible
+
+# - si on oriente le développement vers le scénario (2) décrit plus haut, de nombreuses optimisations sont envisageables :
+# 	- on peut calculer le parcours d'un utilisateur en fonction des parcours calculés pour les utilisateurs arrivés plus tôt, en estimant par exemple les moments où un stand sera supposé libre
+# 	- on peut envisager de voir les parcours comme dynamiques, si une place se libère, on peut réorienter les priorités des participants les plus proches
+#	- on peut également prendre en compte la quantité de déplacement accumulée sur la journée et préférer un stand moins bien classé mais plus logique au regard du parcours total
+
+
+
+
+
+
