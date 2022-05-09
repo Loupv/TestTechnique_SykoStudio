@@ -17,9 +17,9 @@
          "name":"Planet1",
          "ID":1,
          "diameter": 0.7,
-         "revolutionSpeed": 0.01, 
+         "revolutionSpeed": 0.05, 
          "rotationSpeed":0.1,
-         "distanceFromStar": 8,
+         "distanceFromStar": 12,
          "angle": 0,
          "color":"red"
       },
@@ -27,9 +27,9 @@
          "name":"Planet2",
          "ID":2,
          "diameter": 0.9,
-         "revolutionSpeed": 0.02, 
+         "revolutionSpeed": 0.03, 
          "rotationSpeed":0.1,
-         "distanceFromStar": 12,
+         "distanceFromStar": 17,
          "angle": 0,
          "color":"blue"
       },
@@ -37,9 +37,9 @@
          "name":"Planet3",
          "ID":3,
          "diameter": 1,
-         "revolutionSpeed": 0.05, 
+         "revolutionSpeed": 0.02, 
          "rotationSpeed":0.1,
-         "distanceFromStar": 25,
+         "distanceFromStar": 23,
          "angle": 0,
          "color":"green"
       },
@@ -47,9 +47,9 @@
          "name":"Planet4",
          "ID":4,
          "diameter": 0.6,
-         "revolutionSpeed": 0.03, 
+         "revolutionSpeed": 0.01, 
          "rotationSpeed":0.1,
-         "distanceFromStar": 18,
+         "distanceFromStar": 30,
          "angle": 0,
          "color":"yellow"
       }

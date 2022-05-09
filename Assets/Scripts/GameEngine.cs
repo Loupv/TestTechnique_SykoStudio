@@ -13,6 +13,9 @@ public class GameEngine : MonoBehaviour
     public GameState gameState;
     public UIHandler uiHandler;
     public SystemHandler systemHandler;
+    public CameraHandler cameraHandler;
+
+    public int refreshRateTarget = 30;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +26,8 @@ public class GameEngine : MonoBehaviour
 
         uiHandler.GetComponent<UIHandler>();
         uiHandler.SwitchUIPanel(gameState);
+
+        Application.targetFrameRate = refreshRateTarget;
     }
 
     public void LaunchGame()
@@ -35,8 +40,12 @@ public class GameEngine : MonoBehaviour
 
             systemHandler.InitSystem(gameData);
 
+            cameraHandler.InitCameraSystem(systemHandler.planets.Count);
+
             gameState = GameState.InGame;
             uiHandler.SwitchUIPanel(gameState);
+
+            ChangeLookAt(0);
         }
     }
 
@@ -50,7 +59,18 @@ public class GameEngine : MonoBehaviour
         else if(gameState == GameState.InGame)
         {
             systemHandler.UpdateSystem();
-            systemHandler.UpdateCamera();
+            cameraHandler.UpdateCamera(systemHandler.planets[systemHandler.targettedPlanetID].transform);
+
+            if (Input.GetMouseButtonDown(1) && Input.mousePosition.y > 140) ChangeLookAt(-1);
+            if (Input.GetMouseButtonDown(0) && Input.mousePosition.y > 140) ChangeLookAt(1);
+
         }
+    }
+
+
+    void ChangeLookAt(int add)
+    {
+        systemHandler.ChangeLookAt(add);
+        uiHandler.AdjustUIValues();
     }
 }
