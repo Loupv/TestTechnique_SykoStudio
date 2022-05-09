@@ -36,8 +36,9 @@ class Convention
 	private list:int arrivalList # contient les IDs des participants par ordre d'arrivée
 
 	# ici on enregistre l'attendee sur le registre général lorsqu'il arrive à la convention
-	public void AddAttendeeToMainList(Attendee attendee)
+	public void AttendeeHasArrived(Attendee attendee)
 		attendee.hasArrived = true
+		AssignAttendeeToStand(attendee)
 
 	# methode qui check si un stand est full
 	public bool IsStandAvailable(int standID)
@@ -52,7 +53,7 @@ class Convention
 
 	public AssignAttendeeToStand(Attendee attendee)
 		# parcoure la liste des stands préférés de l'attendee et sélectionne le premier qui a des places disponibles
-		# si un stand est trouvé alors on y réserve une place et
+		# si un stand est trouvé alors on y réserve une place et on y assigne le participant
 
 		bool vacantStandFound = False
 
@@ -88,8 +89,8 @@ class Stand
 	# faire une fonction qui permet à un participant de s'inscrire sur la liste si le nombre max de participant est atteint
 	# autre fonction qui affecte les participants s'il reste des places
 
-	public void AttendeeArrived(Attendee attendee)
-		targettedStand = -1
+	public void AssignedAttendeeArrived(Attendee attendee)
+		attendee.targettedStand = -1
 
 	public void AddAttendeeToQueue(Attendee attendee)
 		waitingQueue.Add(attendee)
