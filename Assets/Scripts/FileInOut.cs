@@ -14,7 +14,7 @@ public class PlanetData
 {
     public string name;
     public int ID;
-    public float diameter, revolutionSpeed, rotationSpeed, distanceFromStar, angle;
+    public double diameter, revolutionSpeed, rotationSpeed, distanceFromStar, angle;
     public int colorID;
 }
 
@@ -24,11 +24,12 @@ public static class FileInOut
     public static List<string> performanceDataFiles;
     public static string currentConfigFileName;
 
-    // reads json file and return a gamedata object containing mainstar and planets data
+    // Charge un fichier json et retourne un objet Gamedata contenant un PlanetData de mainstar et une liste de PlanetData pour les autres planètes
     public static GameData LoadPlanetData(string jsonName)
     {
-        if (Application.platform == RuntimePlatform.OSXPlayer) jsonName = "/Resources/Data/" + jsonName;
-        string filePath = Application.dataPath + "/StreamingAssets/" + jsonName;
+        jsonName = "/StreamingAssets/" + jsonName;
+
+        string filePath = Application.dataPath + jsonName;
 
         Debug.Log("Loading Json at " + filePath);
         if (File.Exists(filePath))
@@ -57,7 +58,6 @@ public static class FileInOut
         {
             List<string> scenarios = JsonUtility.FromJson<List<string>>(dataAsJson);
 
-            //string dataAsJson = File.ReadAllText(filePath);
             Debug.Log("ScenariosList JSON loaded successfuly");
             return scenarios;
         }
@@ -69,17 +69,17 @@ public static class FileInOut
 
     }
 
+    // Load le dropdown de l'UI d'accueil avec la liste des fichiers de config trouvés dans le système de fichiers
     public static void PopulatePlaybackDataFileDropdown(TMPro.TMP_Dropdown dropdown)
     {
 
         dropdown.ClearOptions();
         performanceDataFiles = new List<string>();
-        string myPath = "Assets/StreamingAssets";
+
+        string myPath = Application.dataPath + "/StreamingAssets/";
 
         DirectoryInfo dir = new DirectoryInfo(myPath);
         FileInfo[] files = dir.GetFiles("*.json*");
-
-        //string[] files = System.IO.levelDirectoryPath.GetFiles("*.csv", SearchOption.AllDirectories);
 
         foreach (FileInfo file in files)
         {
@@ -95,11 +95,11 @@ public static class FileInOut
 
     }
 
-
+    // Sauvegarde l'ensemble des paramètres du système actuellement affiché dans le fichier initialement chargé
     public static void SavePlanetConfigToFile(GameData gameData)
     {
         string configDataString = JsonUtility.ToJson(gameData, true);
-        File.WriteAllText(Application.dataPath + "/StreamingAssets/" + currentConfigFileName, configDataString);
+        File.WriteAllText(Application.dataPath + currentConfigFileName, configDataString);
     }
 }
     

@@ -2,15 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// 14h50 / 16h40
-// 17h40 / 18h50
-// 16h00 / 20h00 -> 7h
-// 20h30 / 22h00 -> 9h30
-// 21h10 / 
 
 public class SystemHandler : MonoBehaviour
 {
-    //public Vector2 distanceFromStarInitialRange, speedInitialRange, diameterInitialRange;
     public List<GameObject> planets;
     public List<Material> planetMaterials;
     
@@ -18,14 +12,13 @@ public class SystemHandler : MonoBehaviour
     public UIHandler uiHandler;
 
     public bool systemIsActive;
-
     public int targettedPlanetID = 0;
 
+    // Initie l'ensemble du système constitué d'une mainStar et de plusieurs planètes
     public void InitSystem(GameData gameData)
     {
         uiHandler = FindObjectOfType<UIHandler>();
 
-        
         planets = new List<GameObject>();
 
         // Init Star
@@ -50,32 +43,30 @@ public class SystemHandler : MonoBehaviour
         systemIsActive = true;
     }
 
-
+    // Actualise le systeme si systemIsActive est vrai
     public void UpdateSystem()
     {
-
         if (systemIsActive) {
             ActualizePlanetsTransform();
         }
 
-
         if (Input.GetKeyDown(KeyCode.Space)) systemIsActive = !systemIsActive;
     }
 
-    
 
+    // Actualise les Transform des GameObject liés au objets Planet
     void ActualizePlanetsTransform()
     {
         foreach (GameObject planetObj in planets)
         {
             Planet planet = planetObj.GetComponent<Planet>();
-            planet._angle += Time.deltaTime * planet._revolutionSpeed;
-            planet.transform.position = new Vector3(Mathf.Cos(planet._angle * 2 * Mathf.PI) * planet._distanceFromStar, 0, Mathf.Sin(planet._angle * 2 * Mathf.PI) * planet._distanceFromStar);
-            planet.transform.Rotate(Vector3.up, planet._rotationSpeed);
+            planet._angle += Time.deltaTime * planet._revolutionSpeed * Time.deltaTime;
+            planet.transform.position = new Vector3(Mathf.Cos((float)planet._angle * 2 * Mathf.PI) * (float)planet._distanceFromStar, 0, Mathf.Sin((float)planet._angle * 2 * Mathf.PI) * (float)planet._distanceFromStar);
+            planet.transform.Rotate(Vector3.up, (float)planet._rotationSpeed * Time.deltaTime);
         }
     }
 
-
+    // Change l'ID de la Planet actuellement ciblée
     public void ChangeLookAt(int add)
     {
         targettedPlanetID += add;
@@ -103,6 +94,7 @@ public class SystemHandler : MonoBehaviour
         planets[targettedPlanetID].GetComponent<Planet>()._colorID = colorID;
     }
 
+    // Retourne l'objet Planet actuellement ciblé
     public Planet GetCurrentlyFocusedPlanet()
     {
         if (planets.Count > 0) return planets[targettedPlanetID].GetComponent<Planet>();

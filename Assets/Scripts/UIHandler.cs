@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// Gère l'ensemble des affichages de l'UI
 public class UIHandler : MonoBehaviour
 {
     public SystemHandler systemHandler;
@@ -8,14 +9,13 @@ public class UIHandler : MonoBehaviour
 
     public Vector2 rotationSpeedExtrema, sizeExtrema, revolutionSpeedExtrema, distanceExtrema;
 
-
-    //public Dropdown scenariosDropDown;
     public TMPro.TMP_Dropdown scenariosDropDown;
 
     public Slider rotationSpeedSlider, sizeSlider, revolutionSpeedSlider, distanceSlider;
     public Button switchMaterialButton;
     public TMPro.TMP_Text planetNameTextField;
 
+    // Initie les valeurs min et max des Sliders
     private void Start()
     {
         rotationSpeedSlider.minValue = rotationSpeedExtrema.x;
@@ -28,6 +28,7 @@ public class UIHandler : MonoBehaviour
         distanceSlider.maxValue = distanceExtrema.y;
     }
 
+    // Applique les changements d'UI à la Planet ciblée
     public void OnSliderValueChanged(Slider currentSlider)
     {
         Planet currentPlanet = systemHandler.GetCurrentlyFocusedPlanet();
@@ -43,7 +44,7 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-
+    // Alterne entre les deux panels d'UI
     public void SwitchUIPanel(GameState gameState)
     {
         if(gameState == GameState.LoadingScreen)
@@ -58,7 +59,7 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-
+    // Ajuste les sliders de l'UI lorsque l'objet Planet ciblé change
     public void AdjustUIValues()
     {
         Planet currentPlanet = systemHandler.GetCurrentlyFocusedPlanet();
@@ -66,15 +67,15 @@ public class UIHandler : MonoBehaviour
         if (currentPlanet != null)
         {
             PlanetData newData = currentPlanet.GetPlanetData();
-            rotationSpeedSlider.value = newData.rotationSpeed;
-            sizeSlider.value = newData.diameter;
-            revolutionSpeedSlider.value = newData.revolutionSpeed;
-            distanceSlider.value = newData.distanceFromStar;
+            rotationSpeedSlider.value = (float)newData.rotationSpeed;
+            sizeSlider.value = (float)newData.diameter;
+            revolutionSpeedSlider.value = (float)newData.revolutionSpeed;
+            distanceSlider.value = (float)newData.distanceFromStar;
             planetNameTextField.text = newData.name;
         }
     }
 
-
+    // Methode liée au bouton SaveConfig, enregistre les paramètres actuels dans le fichier de configuration courant
     public void SaveConfigDataToFile()
     {
         GameData newGameData = new GameData();

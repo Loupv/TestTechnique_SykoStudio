@@ -1,59 +1,54 @@
 {
-
-   "mainStar":{
-      "name":"MainStar",
-      "ID":0,
-      "diameter": 4,
-      "revolutionSpeed": 0, 
-      "rotationSpeed":0.1,
-      "distanceFromStar": 0,
-      "angle": 0,
-      "color":"star"
-   },
-
-   "planetsData":[
-
-      {
-         "name":"Planet1",
-         "ID":1,
-         "diameter": 0.7,
-         "revolutionSpeed": 0.01, 
-         "rotationSpeed":0.1,
-         "distanceFromStar": 8,
-         "angle": 0,
-         "color":"red"
-      },
-      {
-         "name":"Planet2",
-         "ID":2,
-         "diameter": 0.9,
-         "revolutionSpeed": 0.02, 
-         "rotationSpeed":0.1,
-         "distanceFromStar": 12,
-         "angle": 0,
-         "color":"blue"
-      },
-      {
-         "name":"Planet3",
-         "ID":3,
-         "diameter": 1,
-         "revolutionSpeed": 0.05, 
-         "rotationSpeed":0.1,
-         "distanceFromStar": 25,
-         "angle": 0,
-         "color":"green"
-      },
-      {
-         "name":"Planet4",
-         "ID":4,
-         "diameter": 0.6,
-         "revolutionSpeed": 0.03, 
-         "rotationSpeed":0.1,
-         "distanceFromStar": 18,
-         "angle": 0,
-         "color":"yellow"
-      }
-
-   ]
-
+    "mainStar": {
+        "name": "MainStar",
+        "ID": 0,
+        "diameter": 4.0,
+        "revolutionSpeed": 0.0,
+        "rotationSpeed": 5.0,
+        "distanceFromStar": 0.0,
+        "angle": 0.0,
+        "colorID": 0
+    },
+    "planetsData": [
+        {
+            "name": "Planet1",
+            "ID": 1,
+            "diameter": 0.7,
+            "revolutionSpeed": 0.5,
+            "rotationSpeed": 13.0,
+            "distanceFromStar": 12.0,
+            "angle": 0.0,
+            "colorID": 1
+        },
+        {
+            "name": "Planet2",
+            "ID": 2,
+            "diameter": 0.9,
+            "revolutionSpeed": 0.3,
+            "rotationSpeed": 11.35,
+            "distanceFromStar": 17.0,
+            "angle": 0.0,
+            "colorID": 2
+        },
+        {
+            "name": "Planet3",
+            "ID": 3,
+            "diameter": 1.0,
+            "revolutionSpeed": 0.2,
+            "rotationSpeed": 7.6,
+            "distanceFromStar": 23.0,
+            "angle": 0.0,
+            "colorID": 3
+        },
+        {
+            "name": "Planet4",
+            "ID": 4,
+            "diameter": 0.6,
+            "revolutionSpeed": 0.1,
+            "rotationSpeed": 13.0,
+            "distanceFromStar": 25.0,
+            "angle": 0.0,
+            "colorID": 4
+        }
+    ]
 }

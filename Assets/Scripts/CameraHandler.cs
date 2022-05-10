@@ -2,21 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Classe relative à la manipulation de la caméra
 public class CameraHandler : MonoBehaviour
 {
 
     GameObject mainCamera;
-    
+
+    public float cameraMoveSpeed, cameraRotationSpeed;
+
     public float optimalHeight = 2, optimalZoomSpeed = 5;
  
     public float accumulatedDistanceToPlanet;
     public float cameraAngle;
     public float minCameraToPlanetDistance, maxCameraToPlanetDistance;
 
-
-
-    // Start is called before the first frame update
-    public void InitCameraSystem(int pCount)
+    
+    public void InitCameraSystem()
     {
         mainCamera = Camera.main.gameObject;
         accumulatedDistanceToPlanet = maxCameraToPlanetDistance / 2 + minCameraToPlanetDistance;
@@ -26,13 +27,13 @@ public class CameraHandler : MonoBehaviour
     {
         Transform cameraTransform = mainCamera.transform;
 
-        if (Input.GetKey(KeyCode.LeftArrow)) cameraAngle -= 1;
-        else if (Input.GetKey(KeyCode.RightArrow)) cameraAngle += 1;
+        if (Input.GetKey(KeyCode.LeftArrow)) cameraAngle -= cameraRotationSpeed * Time.deltaTime;
+        else if (Input.GetKey(KeyCode.RightArrow)) cameraAngle += cameraRotationSpeed * Time.deltaTime;
 
         if ((Input.GetKey(KeyCode.UpArrow) || Input.mouseScrollDelta.y > 0) && GetHorizontalDistance(cameraTransform.position, targettedPlanetTransform.position) > minCameraToPlanetDistance)
-            accumulatedDistanceToPlanet -= 1;
+            accumulatedDistanceToPlanet -= cameraMoveSpeed * Time.deltaTime;
         else if ((Input.GetKey(KeyCode.DownArrow) || Input.mouseScrollDelta.y < 0) && GetHorizontalDistance(cameraTransform.position, targettedPlanetTransform.position) < maxCameraToPlanetDistance)
-            accumulatedDistanceToPlanet += 1;
+            accumulatedDistanceToPlanet += cameraMoveSpeed * Time.deltaTime;
 
         cameraTransform.position = targettedPlanetTransform.position + new Vector3(Mathf.Cos(cameraAngle * 2 * Mathf.PI/360) * accumulatedDistanceToPlanet, optimalHeight, Mathf.Sin(cameraAngle * 2 * Mathf.PI / 360) * accumulatedDistanceToPlanet);
 
@@ -43,7 +44,7 @@ public class CameraHandler : MonoBehaviour
 
     }
 
-
+    // Récupère la distance sur le plan horizontal, ne prend pas en compte l'axe Y
     public float GetHorizontalDistance(Vector3 vector1, Vector3 vector2)
     {
         vector1.y = 0;

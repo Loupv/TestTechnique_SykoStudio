@@ -7,12 +7,11 @@ public class Planet : MonoBehaviour
 {
 
     public int _ID;
-    public float _diameter, _revolutionSpeed, _rotationSpeed, _distanceFromStar, _angle;
+    public double _diameter, _revolutionSpeed, _rotationSpeed, _distanceFromStar, _angle;
     public string _name;
     public int _colorID;
 
-    //public Material currentMaterial;
-
+    // Initialisation de l'objet Planet
     public void Init(PlanetData data, Material mat)
     {
         _ID = data.ID;
@@ -22,21 +21,19 @@ public class Planet : MonoBehaviour
         _rotationSpeed = data.rotationSpeed;
         _distanceFromStar = data.distanceFromStar;
         _colorID = data.colorID;
-        _angle = 0;
-        //obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        _angle = Random.Range(-Mathf.PI, Mathf.PI);
+
         gameObject.AddComponent<MeshFilter>().mesh = Resources.GetBuiltinResource<Mesh>("Sphere.fbx");
-        gameObject.transform.localScale = new Vector3(_diameter, _diameter, _diameter);
+        gameObject.transform.localScale = new Vector3((float)_diameter, (float)_diameter, (float)_diameter);
         gameObject.name = _name;
 
         gameObject.transform.parent = GameObject.FindWithTag("PlanetsParent").transform;
-
-        //currentMaterial = mat;
 
         gameObject.AddComponent<MeshRenderer>();
         GetComponent<MeshRenderer>().material = mat;
     }
 
-
+    // Renvoie la liste des données de l'instance Planet au format PlanetData
     public PlanetData GetPlanetData()
     {
         PlanetData data = new PlanetData();
@@ -50,6 +47,7 @@ public class Planet : MonoBehaviour
         return data;
     }
 
+    // Applique à l'instance Planet un nouveau set de données PlanetData
     public void AdjustParameters(PlanetData data)
     {
         _diameter = data.diameter;
@@ -57,7 +55,7 @@ public class Planet : MonoBehaviour
         _rotationSpeed = data.rotationSpeed;
         _distanceFromStar = data.distanceFromStar;
 
-        gameObject.transform.localScale = new Vector3(_diameter, _diameter, _diameter);
+        gameObject.transform.localScale = new Vector3((float)_diameter, (float)_diameter, (float)_diameter);
 
     }
 

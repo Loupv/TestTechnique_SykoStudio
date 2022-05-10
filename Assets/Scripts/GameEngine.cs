@@ -7,6 +7,9 @@ public enum GameState
     LoadingScreen, InGame
 }
 
+// Main class
+// Load l'ensemble des fichiers de préférence, l'UI et fait tourner la boucle principale
+//
 public class GameEngine : MonoBehaviour
 {
 
@@ -17,7 +20,6 @@ public class GameEngine : MonoBehaviour
 
     public int refreshRateTarget = 30;
 
-    // Start is called before the first frame update
     void Start()
     {
         FileInOut.PopulatePlaybackDataFileDropdown(uiHandler.scenariosDropDown);
@@ -28,6 +30,7 @@ public class GameEngine : MonoBehaviour
         uiHandler.SwitchUIPanel(gameState);
 
         Application.targetFrameRate = refreshRateTarget;
+        QualitySettings.vSyncCount = 1;
     }
 
     public void LaunchGame()
@@ -35,12 +38,12 @@ public class GameEngine : MonoBehaviour
         if (gameState == GameState.LoadingScreen)
         { 
             string selectedFileName = FileInOut.performanceDataFiles[uiHandler.scenariosDropDown.value];
-            
+
             GameData gameData = FileInOut.LoadPlanetData(selectedFileName);
 
             systemHandler.InitSystem(gameData);
 
-            cameraHandler.InitCameraSystem(systemHandler.planets.Count);
+            cameraHandler.InitCameraSystem();
 
             gameState = GameState.InGame;
             uiHandler.SwitchUIPanel(gameState);
@@ -50,7 +53,6 @@ public class GameEngine : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     void Update()
     {
         if(gameState == GameState.LoadingScreen)
@@ -72,6 +74,5 @@ public class GameEngine : MonoBehaviour
     {
         systemHandler.ChangeLookAt(add);
         uiHandler.AdjustUIValues();
-        //cameraHandler.SetInitialToPlanetDistance(systemHandler.GetCurrentlyFocusedPlanet().transform.position);
     }
 }
