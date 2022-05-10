@@ -8,7 +8,7 @@
       "rotationSpeed":0.1,
       "distanceFromStar": 0,
       "angle": 0,
-      "color":"star"
+      "colorID":0
    },
 
    "planetsData":[
@@ -21,7 +21,7 @@
          "rotationSpeed":0.1,
          "distanceFromStar": 12,
          "angle": 0,
-         "color":"red"
+         "colorID":1
       },
       {
          "name":"Planet2",
@@ -31,7 +31,7 @@
          "rotationSpeed":0.1,
          "distanceFromStar": 17,
          "angle": 0,
-         "color":"blue"
+         "colorID":2
       },
       {
          "name":"Planet3",
@@ -41,7 +41,7 @@
          "rotationSpeed":0.1,
          "distanceFromStar": 23,
          "angle": 0,
-         "color":"green"
+         "colorID":3
       },
       {
          "name":"Planet4",
@@ -51,7 +51,7 @@
          "rotationSpeed":0.1,
          "distanceFromStar": 30,
          "angle": 0,
-         "color":"yellow"
+         "colorID":4
       }
 
    ]

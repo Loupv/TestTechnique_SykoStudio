@@ -15,13 +15,14 @@ public class PlanetData
     public string name;
     public int ID;
     public float diameter, revolutionSpeed, rotationSpeed, distanceFromStar, angle;
-    public string color;
+    public int colorID;
 }
 
 public static class FileInOut
 {
 
     public static List<string> performanceDataFiles;
+    public static string currentConfigFileName;
 
     // reads json file and return a gamedata object containing mainstar and planets data
     public static GameData LoadPlanetData(string jsonName)
@@ -35,6 +36,7 @@ public static class FileInOut
             string dataAsJson = File.ReadAllText(filePath);
             GameData gameData = JsonUtility.FromJson<GameData>(dataAsJson);
             Debug.Log("GameData JSON loaded successfuly");
+            currentConfigFileName = jsonName;
             return gameData;
         }
         else
@@ -94,10 +96,10 @@ public static class FileInOut
     }
 
 
-    public static void SavePlanetConfigToFile(GameData gameData, string jsonName)
+    public static void SavePlanetConfigToFile(GameData gameData)
     {
         string configDataString = JsonUtility.ToJson(gameData, true);
-        File.WriteAllText(Application.dataPath + "/StreamingAssets/" + jsonName, configDataString);
+        File.WriteAllText(Application.dataPath + "/StreamingAssets/" + currentConfigFileName, configDataString);
     }
 }
     
