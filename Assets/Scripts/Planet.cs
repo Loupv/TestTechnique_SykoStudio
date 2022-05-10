@@ -33,11 +33,12 @@ public class Planet : MonoBehaviour
         GetComponent<MeshRenderer>().material = mat;
     }
 
+   
+
     // Renvoie la liste des données de l'instance Planet au format PlanetData
     public PlanetData GetPlanetData()
     {
-        PlanetData data = new PlanetData();
-        data.ID = _ID;
+        PlanetData data = new PlanetData(_ID);
         data.diameter = _diameter;
         data.revolutionSpeed = _revolutionSpeed;
         data.rotationSpeed = _rotationSpeed;

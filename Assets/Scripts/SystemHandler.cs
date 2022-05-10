@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Linq;
 
 
 public class SystemHandler : MonoBehaviour
@@ -20,6 +22,26 @@ public class SystemHandler : MonoBehaviour
         uiHandler = FindObjectOfType<UIHandler>();
 
         planets = new List<GameObject>();
+
+        // si aucune data de mainStar n'a été trouvé dans le json
+        if (gameData == null)
+        {
+            gameData = new GameData();
+            gameData.mainStar = new PlanetData(0, 4, 0, 5, 0, "MainStar", 0);
+        }
+
+        // si le nombre de planète n'est pas dans les limites autorisées
+        if (gameData.planetsData != null && gameData.planetsData.Length > 11)
+        {
+            PlanetData[] newPlanetData = new PlanetData[10];
+            Array.Copy(gameData.planetsData, newPlanetData, 10);
+            gameData.planetsData = newPlanetData;
+        }
+        else if (gameData.planetsData == null || gameData.planetsData.Length < 1)
+        {
+            gameData.planetsData = new PlanetData[1];
+            gameData.planetsData[0] = new PlanetData(1);
+        }
 
         // Init Star
         mainStar = new GameObject();

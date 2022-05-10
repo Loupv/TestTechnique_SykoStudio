@@ -16,6 +16,29 @@ public class PlanetData
     public int ID;
     public double diameter, revolutionSpeed, rotationSpeed, distanceFromStar, angle;
     public int colorID;
+
+    public PlanetData(int _ID)
+    {
+        ID = _ID;
+        name = "BlankPlanet";
+        diameter = 1;
+        revolutionSpeed = 5;
+        rotationSpeed = 15;
+        distanceFromStar = 10;
+        colorID = 1;
+        angle = Random.Range(-Mathf.PI, Mathf.PI);
+    }
+
+    public PlanetData(int _ID, double _diameter, double _revolutionSpeed, double _rotationSpeed, double _distanceFromStar, string _name, int _colorID)
+    {
+        ID = _ID;
+        diameter = _diameter;
+        revolutionSpeed = _revolutionSpeed;
+        rotationSpeed = _rotationSpeed;
+        distanceFromStar = _distanceFromStar;
+        name = _name;
+        colorID = _colorID;
+    }
 }
 
 public static class FileInOut
@@ -35,16 +58,25 @@ public static class FileInOut
         if (File.Exists(filePath))
         {
             string dataAsJson = File.ReadAllText(filePath);
-            GameData gameData = JsonUtility.FromJson<GameData>(dataAsJson);
-            Debug.Log("GameData JSON loaded successfuly");
-            currentConfigFileName = jsonName;
-            return gameData;
+
+            try
+            {
+                GameData gameData = JsonUtility.FromJson<GameData>(dataAsJson);
+                Debug.Log("GameData JSON loaded successfuly");
+                currentConfigFileName = jsonName;
+
+                if (gameData != null) return gameData;
+            }
+            catch
+            {
+                Debug.Log("Improper JSON file format");
+            }
         }
-        else
-        {
-            Debug.Log("JSON File not found");
-            return null;
-        }
+
+        else Debug.Log("JSON File not found");
+        
+        
+        return null;
 
     }
 

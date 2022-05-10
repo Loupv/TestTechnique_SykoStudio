@@ -40,7 +40,7 @@ public class GameEngine : MonoBehaviour
             string selectedFileName = FileInOut.performanceDataFiles[uiHandler.scenariosDropDown.value];
 
             GameData gameData = FileInOut.LoadPlanetData(selectedFileName);
-
+            
             systemHandler.InitSystem(gameData);
 
             cameraHandler.InitCameraSystem();
