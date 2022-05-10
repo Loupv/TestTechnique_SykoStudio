@@ -73,6 +73,18 @@ public class UIHandler : MonoBehaviour
             distanceSlider.value = (float)newData.distanceFromStar;
             planetNameTextField.text = newData.name;
         }
+
+        // si on est face à mainstar, on enlève les contrôles de distance et de révolution
+        if(currentPlanet._ID == 0)
+        {
+            revolutionSpeedSlider.gameObject.SetActive(false);
+            distanceSlider.gameObject.SetActive(false);
+        }
+        else
+        {
+            revolutionSpeedSlider.gameObject.SetActive(true);
+            distanceSlider.gameObject.SetActive(true);
+        }
     }
 
     // Methode liée au bouton SaveConfig, enregistre les paramètres actuels dans le fichier de configuration courant
