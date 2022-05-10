@@ -72,5 +72,6 @@ public class GameEngine : MonoBehaviour
     {
         systemHandler.ChangeLookAt(add);
         uiHandler.AdjustUIValues();
+        //cameraHandler.SetInitialToPlanetDistance(systemHandler.GetCurrentlyFocusedPlanet().transform.position);
     }
 }

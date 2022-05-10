@@ -13,6 +13,7 @@ public class UIHandler : MonoBehaviour
     public TMPro.TMP_Dropdown scenariosDropDown;
 
     public Slider rotationSpeedSlider, sizeSlider, revolutionSpeedSlider, distanceSlider;
+    public Button switchMaterialButton;
     public TMPro.TMP_Text planetNameTextField;
 
     private void Start()
@@ -40,7 +41,6 @@ public class UIHandler : MonoBehaviour
             else if (currentSlider.name.Contains("DistanceFromStar")) newData.distanceFromStar = currentSlider.value;
             systemHandler.AdjustCurrentPlanetParameters(newData);
         }
-
     }
 
 
@@ -89,7 +89,7 @@ public class UIHandler : MonoBehaviour
             Debug.Log("Saving planet : " + newGameData.planetsData[i-1].name);
         }
 
-        FileInOut.SavePlanetConfigToFile(newGameData, "jsonTest.json");
+        FileInOut.SavePlanetConfigToFile(newGameData);
     }
 
 

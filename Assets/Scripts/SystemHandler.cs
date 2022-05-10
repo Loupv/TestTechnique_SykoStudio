@@ -12,7 +12,7 @@ public class SystemHandler : MonoBehaviour
 {
     //public Vector2 distanceFromStarInitialRange, speedInitialRange, diameterInitialRange;
     public List<GameObject> planets;
-    public Material starMaterial, redMaterial, greenMaterial, blueMaterial, yellowMaterial;
+    public List<Material> planetMaterials;
     
     GameObject mainStar;
     public UIHandler uiHandler;
@@ -31,7 +31,7 @@ public class SystemHandler : MonoBehaviour
         // Init Star
         mainStar = new GameObject();
         mainStar.gameObject.AddComponent<Planet>();
-        Material mat = PickRightMaterial(gameData.mainStar.color);
+        Material mat = PickRightMaterial(gameData.mainStar.colorID);
         mainStar.GetComponent<Planet>().Init(gameData.mainStar, mat);
         planets.Add(mainStar);
 
@@ -41,7 +41,7 @@ public class SystemHandler : MonoBehaviour
             GameObject newPlanet = new GameObject();
             newPlanet.AddComponent<Planet>();
 
-            mat = PickRightMaterial(gameData.planetsData[i].color);
+            mat = PickRightMaterial(gameData.planetsData[i].colorID);
             newPlanet.GetComponent<Planet>().Init(gameData.planetsData[i], mat);
 
             planets.Add(newPlanet);
@@ -84,22 +84,23 @@ public class SystemHandler : MonoBehaviour
     }
 
 
-    Material PickRightMaterial(string colName)
+    Material PickRightMaterial(int colID)
     {
-        switch (colName)
-        {
-            case "star": return starMaterial;
-            case "red": return redMaterial;
-            case "green": return greenMaterial;
-            case "blue": return blueMaterial;
-            case "yellow": return yellowMaterial;
-        }
-        return null;
+        return planetMaterials[colID];
     }
 
     public void AdjustCurrentPlanetParameters(PlanetData data)
     {
         planets[targettedPlanetID].GetComponent<Planet>().AdjustParameters(data);
+    }
+
+    public void PickNextMaterialForCurrentPlanet()
+    {
+        int colorID = planets[targettedPlanetID].GetComponent<Planet>()._colorID + 1;
+
+        if (colorID >= planetMaterials.Count) colorID = 0;
+        planets[targettedPlanetID].GetComponent<Planet>().ChangePlanetMaterial(PickRightMaterial(colorID), colorID);
+        planets[targettedPlanetID].GetComponent<Planet>()._colorID = colorID;
     }
 
     public Planet GetCurrentlyFocusedPlanet()

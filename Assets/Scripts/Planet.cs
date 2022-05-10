@@ -8,9 +8,10 @@ public class Planet : MonoBehaviour
 
     public int _ID;
     public float _diameter, _revolutionSpeed, _rotationSpeed, _distanceFromStar, _angle;
-    public string _name, _color;
+    public string _name;
+    public int _colorID;
 
-    public Material currentMaterial;
+    //public Material currentMaterial;
 
     public void Init(PlanetData data, Material mat)
     {
@@ -20,7 +21,7 @@ public class Planet : MonoBehaviour
         _revolutionSpeed = data.revolutionSpeed;
         _rotationSpeed = data.rotationSpeed;
         _distanceFromStar = data.distanceFromStar;
-        _color = data.color;
+        _colorID = data.colorID;
         _angle = 0;
         //obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         gameObject.AddComponent<MeshFilter>().mesh = Resources.GetBuiltinResource<Mesh>("Sphere.fbx");
@@ -29,7 +30,7 @@ public class Planet : MonoBehaviour
 
         gameObject.transform.parent = GameObject.FindWithTag("PlanetsParent").transform;
 
-        currentMaterial = mat;
+        //currentMaterial = mat;
 
         gameObject.AddComponent<MeshRenderer>();
         GetComponent<MeshRenderer>().material = mat;
@@ -45,7 +46,7 @@ public class Planet : MonoBehaviour
         data.rotationSpeed = _rotationSpeed;
         data.distanceFromStar = _distanceFromStar;
         data.name = _name;
-        data.color = _color;
+        data.colorID = _colorID;
         return data;
     }
 
@@ -58,6 +59,12 @@ public class Planet : MonoBehaviour
 
         gameObject.transform.localScale = new Vector3(_diameter, _diameter, _diameter);
 
+    }
+
+    public void ChangePlanetMaterial(Material mat, int newColorID)
+    {
+        _colorID = newColorID;
+        GetComponent<MeshRenderer>().material = mat;
     }
 
 
